@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flavio Consulting — Solutions digitales pour TPE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --noir:#080810; --card:#0f0f1c; --violet:#7c3aed; --violet2:#a78bfa; --or:#e8c97e; --blanc:#f5f0e8; --gris:#6b6b85; --border:rgba(255,255,255,0.06); }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--noir); color: var(--blanc); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:999; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); opacity:0.35; }
+
+    nav { position:fixed; top:0; width:100%; z-index:100; padding:22px 60px; display:flex; justify-content:space-between; align-items:center; background:rgba(8,8,16,0.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+    .logo { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:600; }
+    .logo span { color:var(--or); font-style:italic; }
+    .nav-links { display:flex; gap:36px; align-items:center; }
+    .nav-links a { color:var(--gris); text-decoration:none; font-size:0.88rem; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--blanc); }
+    .btn-nav { background:transparent !important; border:1px solid rgba(124,58,237,0.5) !important; color:var(--violet2) !important; padding:9px 22px; border-radius:6px; font-weight:500 !important; transition:all 0.2s !important; }
+    .btn-nav:hover { background:rgba(124,58,237,0.1) !important; }
+
+    .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:140px 60px 80px; position:relative; text-align:center; }
+    .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 30%, rgba(124,58,237,0.08) 0%, transparent 70%); }
+    .hero-line { position:absolute; top:0; left:50%; transform:translateX(-50%); width:1px; height:120px; background:linear-gradient(180deg,transparent,var(--violet),transparent); animation:lineDown 2s ease infinite; }
+    @keyframes lineDown { 0%,100%{opacity:0.3} 50%{opacity:1} }
+    .hero-inner { position:relative; z-index:1; max-width:760px; }
+    .hero-tag { display:inline-flex; align-items:center; gap:8px; background:rgba(232,201,126,0.08); border:1px solid rgba(232,201,126,0.2); color:var(--or); padding:7px 18px; border-radius:100px; font-size:0.8rem; font-weight:500; letter-spacing:1px; text-transform:uppercase; margin-bottom:32px; animation:fadeUp 0.6s ease both; }
+    .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(3.2rem,7vw,6rem); font-weight:600; line-height:1.05; letter-spacing:-1px; margin-bottom:28px; animation:fadeUp 0.6s 0.1s ease both; }
+    .hero h1 em { font-style:italic; color:var(--or); }
+    .hero p { font-size:1.1rem; color:var(--gris); line-height:1.75; font-weight:300; max-width:520px; margin:0 auto 44px; animation:fadeUp 0.6s 0.2s ease both; }
+    .hero-cta { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; animation:fadeUp 0.6s 0.3s ease both; }
+    .btn-primary { background:linear-gradient(135deg,var(--violet),#5b21b6); color:var(--blanc); padding:15px 34px; border-radius:8px; font-size:0.95rem; font-weight:500; text-decoration:none; transition:all 0.3s; box-shadow:0 8px 30px rgba(124,58,237,0.35); border:none; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(124,58,237,0.5); }
+    .btn-ghost { background:transparent; color:var(--blanc); padding:15px 34px; border-radius:8px; font-size:0.95rem; font-weight:500; text-decoration:none; border:1px solid var(--border); transition:all 0.3s; }
+    .btn-ghost:hover { border-color:rgba(255,255,255,0.25); background:rgba(255,255,255,0.04); }
+
+    .marquee-wrap { padding:28px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); overflow:hidden; }
+    .marquee-track { display:flex; gap:60px; animation:marquee 20s linear infinite; white-space:nowrap; }
+    .marquee-track span { color:var(--gris); font-size:0.82rem; letter-spacing:2px; text-transform:uppercase; }
+    .marquee-track .dot { color:var(--or); }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    .section { padding:100px 60px; max-width:1100px; margin:0 auto; }
+    .section-label { color:var(--or); font-size:0.75rem; font-weight:500; letter-spacing:3px; text-transform:uppercase; margin-bottom:16px; }
+    .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:600; line-height:1.2; margin-bottom:60px; }
+
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+    .service-card { background:var(--card); padding:36px 30px; transition:background 0.3s; }
+    .service-card:hover { background:#14142a; }
+    .service-num { font-family:'Cormorant Garamond',serif; font-size:0.85rem; color:var(--or); font-style:italic; margin-bottom:20px; display:block; }
+    .service-icon { font-size:2rem; margin-bottom:16px; display:block; }
+    .service-name { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; margin-bottom:10px; }
+    .service-desc { color:var(--gris); font-size:0.88rem; line-height:1.65; }
+
+    .product-section { padding:100px 60px; }
+    .product-inner { max-width:1100px; margin:0 auto; background:var(--card); border:1px solid var(--border); border-radius:20px; overflow:hidden; display:grid; grid-template-columns:1fr 1fr; }
+    .product-left { padding:60px; border-right:1px solid var(--border); }
+    .product-tag { display:inline-block; background:rgba(124,58,237,0.15); border:1px solid rgba(124,58,237,0.3); color:var(--violet2); padding:5px 14px; border-radius:100px; font-size:0.78rem; font-weight:500; letter-spacing:1px; text-transform:uppercase; margin-bottom:24px; }
+    .product-title { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:600; line-height:1.1; margin-bottom:20px; }
+    .product-title span { color:var(--or); font-style:italic; }
+    .product-desc { color:var(--gris); font-size:0.92rem; line-height:1.7; margin-bottom:36px; }
+    .product-features { list-style:none; margin-bottom:36px; }
+    .product-features li { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid var(--border); color:var(--blanc); font-size:0.9rem; }
+    .product-features li::before { content:'✓'; color:var(--violet2); font-weight:700; flex-shrink:0; }
+    .product-price { font-family:'Cormorant Garamond',serif; font-size:3.5rem; font-weight:600; }
+    .product-price sup { font-size:1.2rem; vertical-align:super; color:var(--gris); }
+    .product-price sub { font-size:1rem; color:var(--gris); font-family:'DM Sans',sans-serif; font-weight:300; }
+    .product-cta { margin-top:24px; display:flex; flex-direction:column; gap:12px; }
+    .product-right { padding:60px; display:flex; flex-direction:column; justify-content:center; gap:20px; }
+    .mock-card { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:20px; }
+    .mock-label { font-size:0.72rem; color:var(--gris); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; }
+    .mock-value { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; }
+    .mock-value.green { color:#00c896; }
+    .mock-value.blue  { color:#3b82f6; }
+    .mock-value.purple { color:var(--violet2); }
+    .mock-bars { display:flex; align-items:flex-end; gap:6px; height:60px; margin-top:12px; }
+    .mock-bar { flex:1; border-radius:3px 3px 0 0; background:linear-gradient(180deg,var(--violet2),var(--violet)); opacity:0.7; }
+
+    .why-section { padding:100px 60px; max-width:1100px; margin:0 auto; }
+    .why-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+    .why-left h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,2.8rem); font-weight:600; line-height:1.2; margin-bottom:24px; }
+    .why-left p { color:var(--gris); font-size:0.92rem; line-height:1.75; margin-bottom:16px; }
+    .why-stats { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px; }
+    .why-stat { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:24px 20px; }
+    .why-stat-num { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:600; color:var(--or); }
+    .why-stat-label { color:var(--gris); font-size:0.82rem; margin-top:4px; }
+
+    .contact-section { padding:100px 60px; max-width:700px; margin:0 auto; text-align:center; }
+    .contact-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:60px 50px; margin-top:40px; }
+    .form-group { margin-bottom:16px; text-align:left; }
+    .form-group label { display:block; color:var(--gris); font-size:0.82rem; margin-bottom:8px; font-weight:500; }
+    .form-group input, .form-group textarea, .form-group select { width:100%; padding:13px 16px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; color:var(--blanc); font-size:0.92rem; font-family:'DM Sans',sans-serif; outline:none; transition:border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:var(--violet); }
+    .form-group select option { background:#0f0f1c; }
+    .form-group textarea { resize:vertical; min-height:100px; }
+
+    footer { padding:40px 60px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; color:var(--gris); font-size:0.82rem; }
+    .footer-logo { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; }
+    .footer-logo span { color:var(--or); font-style:italic; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { opacity:0; transform:translateY(30px); transition:all 0.7s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:900px) {
+      nav { padding:16px 20px; }
+      .nav-links { gap:16px; }
+      .hero { padding:120px 20px 60px; }
+      .section, .why-section, .contact-section, .product-section { padding:60px 20px; }
+      .services-grid { grid-template-columns:1fr; }
+      .product-inner { grid-template-columns:1fr; }
+      .product-right { display:none; }
+      .why-grid { grid-template-columns:1fr; }
+      footer { flex-direction:column; gap:10px; text-align:center; padding:30px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Flavio<span>Consulting</span></div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#produits">Produits</a>
+    <a href="#contact">Contact</a>
+    <a href="/datacoiff-pro/" class="btn-nav">DataCoiff Pro →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"><div class="hero-line"></div></div>
+  <div class="hero-inner">
+    <div class="hero-tag">💼 Conseil & Solutions digitales</div>
+    <h1>Le digital,<br>au service des <em>artisans</em></h1>
+    <p>Nous créons des outils sur mesure pour les TPE qui veulent piloter leur activité comme de grands groupes — sans la complexité, ni le prix.</p>
+    <div class="hero-cta">
+      <a href="#produits" class="btn-primary">Découvrir nos produits →</a>
+      <a href="#contact" class="btn-ghost">Prendre contact</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Tableaux de bord</span><span class="dot">✦</span><span>Gestion de stock</span><span class="dot">✦</span><span>Alertes automatiques</span><span class="dot">✦</span><span>Analyse des ventes</span><span class="dot">✦</span><span>Solutions Excel</span><span class="dot">✦</span><span>Automatisation</span><span class="dot">✦</span>
+    <span>Tableaux de bord</span><span class="dot">✦</span><span>Gestion de stock</span><span class="dot">✦</span><span>Alertes automatiques</span><span class="dot">✦</span><span>Analyse des ventes</span><span class="dot">✦</span><span>Solutions Excel</span><span class="dot">✦</span><span>Automatisation</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<div class="section fade-in" id="services">
+  <div class="section-label">Ce que nous faisons</div>
+  <h2 class="section-title">Des solutions concrètes<br>pour votre quotidien.</h2>
+  <div class="services-grid">
+    <div class="service-card"><span class="service-num">01</span><span class="service-icon">📊</span><div class="service-name">Tableaux de bord</div><p class="service-desc">Visualisez vos KPIs en temps réel — chiffre d'affaires, prestations, panier moyen — depuis n'importe quel appareil.</p></div>
+    <div class="service-card"><span class="service-num">02</span><span class="service-icon">📦</span><div class="service-name">Gestion de stock</div><p class="service-desc">Alertes automatiques par email quand vos produits passent sous le seuil minimum. Fini les ruptures de stock.</p></div>
+    <div class="service-card"><span class="service-num">03</span><span class="service-icon">🔗</span><div class="service-name">Intégration Excel</div><p class="service-desc">Continuez avec vos habitudes. Un bouton dans votre Excel envoie vos données vers le tableau de bord en 1 clic.</p></div>
+    <div class="service-card"><span class="service-num">04</span><span class="service-icon">⚡</span><div class="service-name">Automatisation</div><p class="service-desc">Rapports, alertes, synchronisations — nous automatisons les tâches répétitives pour vous libérer du temps.</p></div>
+    <div class="service-card"><span class="service-num">05</span><span class="service-icon">🔐</span><div class="service-name">Accès sécurisé</div><p class="service-desc">Chaque client dispose de son propre espace protégé. Vos données restent privées et accessibles uniquement par vous.</p></div>
+    <div class="service-card"><span class="service-num">06</span><span class="service-icon">🛠️</span><div class="service-name">Sur mesure</div><p class="service-desc">Chaque solution est adaptée à votre métier. Pas de logiciel générique — nous construisons ce dont vous avez besoin.</p></div>
+  </div>
+</div>
+
+<div class="product-section fade-in" id="produits">
+  <div class="product-inner">
+    <div class="product-left">
+      <div class="product-tag">⭐ Produit phare</div>
+      <h2 class="product-title">DataCoiff <span>Pro</span></h2>
+      <p class="product-desc">Le tableau de bord intelligent conçu spécifiquement pour les salons de coiffure. Pilotez votre activité, gérez votre stock et analysez vos performances — sans changer vos habitudes.</p>
+      <ul class="product-features">
+        <li>Tableau de bord personnalisé en temps réel</li>
+        <li>Gestion du stock avec alertes automatiques</li>
+        <li>Suivi des ventes et prestations par employé</li>
+        <li>Compatible avec votre Excel actuel (1 clic)</li>
+        <li>Accès sécurisé depuis téléphone ou PC</li>
+        <li>Installation et configuration offerte</li>
+      </ul>
+      <div class="product-price"><sup>€</sup>39,99<sub>/mois</sub></div>
+      <div class="product-cta">
+        <a href="/datacoiff-pro/" class="btn-primary">Voir DataCoiff Pro →</a>
+        <a href="#contact" class="btn-ghost">Demander une démo gratuite</a>
+      </div>
+    </div>
+    <div class="product-right">
+      <div class="mock-card">
+        <div class="mock-label">Chiffre d'affaires</div>
+        <div class="mock-value green">2 840 €</div>
+        <div class="mock-bars">
+          <div class="mock-bar" style="height:40%"></div><div class="mock-bar" style="height:65%"></div>
+          <div class="mock-bar" style="height:50%"></div><div class="mock-bar" style="height:85%"></div>
+          <div class="mock-bar" style="height:60%"></div><div class="mock-bar" style="height:95%"></div>
+          <div class="mock-bar" style="height:75%"></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="mock-card"><div class="mock-label">Prestations</div><div class="mock-value blue">94</div></div>
+        <div class="mock-card"><div class="mock-label">Panier moyen</div><div class="mock-value purple">30,2 €</div></div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-label">Top services</div>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="height:6px;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--violet2));width:90%;"></div><span style="font-size:0.75rem;color:var(--gris);white-space:nowrap;">Coupe femme</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="height:6px;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--violet2));width:65%;"></div><span style="font-size:0.75rem;color:var(--gris);white-space:nowrap;">Couleur</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="height:6px;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--violet2));width:45%;"></div><span style="font-size:0.75rem;color:var(--gris);white-space:nowrap;">Coupe homme</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="why-section fade-in">
+  <div class="why-grid">
+    <div class="why-left">
+      <div class="section-label">Pourquoi Flavio Consulting</div>
+      <h2>Des outils pensés<br>pour <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--or);">vos contraintes</em></h2>
+      <p>Pas de formation de 3 jours. Pas d'abonnement à 200€/mois. Pas de logiciel qui change tout ce que vous connaissez.</p>
+      <p>Nous créons des solutions qui s'adaptent à vous — pas l'inverse. Vous gardez vos habitudes, on y ajoute la puissance du digital.</p>
+      <div class="why-stats">
+        <div class="why-stat"><div class="why-stat-num">5 min</div><div class="why-stat-label">Pour configurer votre tableau de bord</div></div>
+        <div class="why-stat"><div class="why-stat-num">0 €</div><div class="why-stat-label">De logiciel supplémentaire</div></div>
+        <div class="why-stat"><div class="why-stat-num">100%</div><div class="why-stat-label">Compatible avec votre Excel</div></div>
+        <div class="why-stat"><div class="why-stat-num">24h</div><div class="why-stat-label">Pour répondre à chaque demande</div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px;">
+        <div style="font-size:2rem;margin-bottom:12px;">✂️</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:8px;">Salons de coiffure</div>
+        <div style="color:var(--gris);font-size:0.88rem;line-height:1.6;">DataCoiff Pro — tableau de bord, stock et ventes pour les coiffeurs indépendants.</div>
+        <a href="/datacoiff-pro/" style="display:inline-block;margin-top:16px;color:var(--violet2);font-size:0.85rem;text-decoration:none;font-weight:500;">Découvrir →</a>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(232,201,126,0.15);border-radius:16px;padding:30px;">
+        <div style="font-size:2rem;margin-bottom:12px;">🚀</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:8px;">Votre secteur, bientôt</div>
+        <div style="color:var(--gris);font-size:0.88rem;line-height:1.6;">Vous avez un besoin spécifique dans votre métier ? Parlons-en — chaque solution est construite sur mesure.</div>
+        <a href="#contact" style="display:inline-block;margin-top:16px;color:var(--or);font-size:0.85rem;text-decoration:none;font-weight:500;">Nous contacter →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="contact-section fade-in" id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-title" style="margin:0 auto;">Un projet ?<br>Parlons-en.</h2>
+  <div class="contact-card">
+    <form action="https://formspree.io/f/xkoqjqgo" method="POST">
+      <div class="form-group"><label>Votre prénom</label><input type="text" name="prenom" placeholder="Marie" required></div>
+      <div class="form-group"><label>Votre email</label><input type="email" name="email" placeholder="marie@monsalon.fr" required></div>
+      <div class="form-group">
+        <label>Votre secteur d'activité</label>
+        <select name="secteur"><option>Salon de coiffure</option><option>Restaurant / Café</option><option>Boutique / Commerce</option><option>Artisan</option><option>Autre</option></select>
+      </div>
+      <div class="form-group"><label>Votre besoin</label><textarea name="message" placeholder="Décrivez votre besoin..."></textarea></div>
+      <br>
+      <button type="submit" class="btn-primary" style="width:100%;">Envoyer →</button>
+      <p style="color:var(--gris);font-size:0.78rem;margin-top:14px;text-align:center;">Je vous réponds sous 24h. Échange 100% gratuit et sans engagement.</p>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Flavio<span>Consulting</span></div>
+  <div>© 2026 Flavio Consulting — Tous droits réservés</div>
+  <div style="display:flex;gap:20px;">
+    <a href="/datacoiff-pro/" style="color:var(--gris);text-decoration:none;font-size:0.82rem;">DataCoiff Pro</a>
+    <a href="#contact" style="color:var(--gris);text-decoration:none;font-size:0.82rem;">Contact</a>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
